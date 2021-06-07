@@ -7,10 +7,49 @@ from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
-def has_cycle(head: ListNode) -> Optional[ListNode]:
-    # TODO - you fill in here.
-    return None
+# def has_cycle(head: ListNode) -> Optional[ListNode]:
+#     def cycle_length(node: ListNode) -> int:
+#         dummy = node.next
+#         count = 1
+#         while(dummy is not node):
+#             dummy = dummy.next
+#             count += 1
+#         return count
+        
+#     # Fast Slow traversal
+#     fast = slow = head
+#     while fast and fast.next and fast.next.next:
+#         fast = fast.next.next
+#         slow = slow.next
+#         if fast is slow:
+#             cycle_iter = head
+#             for _ in range(cycle_length(slow)):
+#                 cycle_iter = cycle_iter.next
+            
+#             it = head
+#             while it is not cycle_iter:
+#                 cycle_iter = cycle_iter.next
+#                 it = it.next
+#             return it
 
+#     return None
+
+
+def has_cycle(head: ListNode) -> Optional[ListNode]:
+    # Fast Slow traversal
+    fast = slow = head
+    while fast and fast.next and fast.next.next:
+        fast = fast.next.next
+        slow = slow.next
+        if fast is slow:
+            slow = head
+
+            while slow is not fast:
+                fast = fast.next
+                slow = slow.next
+            return slow
+
+    return None
 
 @enable_executor_hook
 def has_cycle_wrapper(executor, head, cycle_idx):
